@@ -98,17 +98,18 @@
 
     <script>
         const chatContainer = document.getElementById('chat-container');
-        const mainScrollArea = document.querySelector('main'); // Vi scrollar main-taggen nu
+        const mainScrollArea = document.querySelector('main');
         const chatForm = document.getElementById('chat-form');
         const userInput = document.getElementById('user-input');
         const emptyState = document.getElementById('empty-state');
         const sendBtn = document.getElementById('send-btn');
+        
+        // --- THEME (Samma som förut) ---
         const themeToggleBtn = document.getElementById('theme-toggle');
         const sunIcon = document.getElementById('sun-icon');
         const moonIcon = document.getElementById('moon-icon');
         const html = document.documentElement;
 
-        // --- THEME ---
         function applyTheme() {
             const isDark = localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
             if (isDark) {
@@ -124,15 +125,15 @@
         applyTheme();
 
         themeToggleBtn.addEventListener('click', () => {
-            if (html.classList.contains('dark')) {
-                localStorage.theme = 'light';
-            } else {
-                localStorage.theme = 'dark';
-            }
+            if (html.classList.contains('dark')) { localStorage.theme = 'light'; } 
+            else { localStorage.theme = 'dark'; }
             applyTheme();
         });
 
-        // --- CHAT ---
+        // --- CHAT LOGIC V2 (MED HISTORIK) ---
+        
+        // Här sparar vi samtalet lokalt i webbläsarens minne
+        let conversationHistory = [];
 
         function appendMessage(text, sender) {
             if (emptyState) emptyState.style.display = 'none';
@@ -177,7 +178,6 @@
         }
 
         function scrollToBottom() {
-            // Scrolla main-elementet istället för containern
             setTimeout(() => {
                 mainScrollArea.scrollTop = mainScrollArea.scrollHeight;
             }, 50);
@@ -188,17 +188,21 @@
             const text = userInput.value.trim();
             if (!text) return;
 
+            // 1. Visa meddelandet och lägg till i historiken
             appendMessage(text, 'user');
+            conversationHistory.push({ role: "user", content: text });
+
             userInput.value = '';
             userInput.disabled = true;
             sendBtn.disabled = true;
             showTyping();
 
             try {
+                // 2. Skicka HELA historiken till servern
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text })
+                    body: JSON.stringify({ messages: conversationHistory })
                 });
 
                 const data = await response.json();
@@ -206,6 +210,8 @@
                 
                 if (data.response) {
                     appendMessage(data.response, 'ai');
+                    // 3. Spara AI:ns svar i historiken också
+                    conversationHistory.push({ role: "assistant", content: data.response });
                 } else {
                     appendMessage("Något gick fel, fick inget svar.", 'ai');
                 }
@@ -223,3 +229,4 @@
     </script>
 </body>
 </html>
+
