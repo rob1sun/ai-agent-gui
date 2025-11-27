@@ -1,0 +1,8 @@
+name = "soren-gui"
+pages_build_output_dir = "public"
+compatibility_date = "2024-11-27"
+
+# HÄR KOPPLAR VI IHOP GUI MED DIN AGENT
+[[services]]
+binding = "AI_AGENT"
+service = "ai-agent" # Namnet på din worker du precis fixade
