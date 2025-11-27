@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Federatören Sören AI</title>
+    <title>Federatören Sören</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,8 +11,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#3b82f6', // En snygg blå
-                        darkbg: '#0f172a',  // Slate 900
+                        primary: '#3b82f6', 
+                        darkbg: '#0f172a',
                     },
                     animation: {
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -24,10 +24,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
+        
         /* Scrollbar styling */
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; border: 2px solid transparent; background-clip: content-box; }
         .dark ::-webkit-scrollbar-thumb { background: #334155; }
         
         /* Chat bubble animation */
@@ -37,62 +38,77 @@
 </head>
 <body class="bg-gray-50 text-gray-800 dark:bg-darkbg dark:text-gray-100 transition-colors duration-300 flex flex-col h-[100dvh]">
 
-    <header class="sticky top-0 z-10 backdrop-blur-md bg-white/70 dark:bg-darkbg/70 border-b border-gray-200 dark:border-gray-800 px-4 py-3 flex justify-between items-center transition-colors duration-300">
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-cyan-400 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/30">
-                S
+    <header class="sticky top-0 z-10 backdrop-blur-md bg-white/70 dark:bg-darkbg/70 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-500/30">
+                    F
+                </div>
+                <div>
+                    <h1 class="font-semibold text-base tracking-wide">Federatören Sören</h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Redo att tjäna
+                    </p>
+                </div>
             </div>
-            <div>
-                <h1 class="font-semibold text-sm tracking-wide">Federatören Sören</h1>
-                <p class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> Online
-                </p>
-            </div>
-        </div>
 
-        <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50">
-            <svg id="sun-icon" class="w-5 h-5 text-amber-500 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-            <svg id="moon-icon" class="w-5 h-5 text-indigo-400 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 24.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-        </button>
+            <button id="theme-toggle" class="p-2.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50 text-gray-500 dark:text-gray-400">
+                <svg id="sun-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <svg id="moon-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 24.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            </button>
+        </div>
     </header>
 
-    <main id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth">
-        <div class="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-50" id="empty-state">
-            <div class="p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl">
-                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+    <main class="flex-1 overflow-y-auto scroll-smooth w-full">
+        <div id="chat-container" class="max-w-4xl mx-auto p-4 space-y-6 min-h-full flex flex-col">
+            
+            <div class="flex-1 flex flex-col items-center justify-center text-center space-y-6 opacity-60 min-h-[50vh]" id="empty-state">
+                <div class="p-6 bg-white dark:bg-gray-800 rounded-3xl shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10">
+                    <svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
+                </div>
+                <div class="space-y-2 max-w-md">
+                    <h2 class="text-xl font-medium text-gray-900 dark:text-white">Hej, jag är federatören Sören!</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Vad kan jag hjälpa dig med?</p>
+                </div>
             </div>
-            <p class="text-sm">Hej! Jag är federatören Sören, vad kan jag hjälpa dig med?</p>
+
         </div>
     </main>
 
-    <footer class="p-4 bg-white/80 dark:bg-darkbg/80 backdrop-blur-md border-t border-gray-200 dark:border-gray-800">
-        <form id="chat-form" class="max-w-3xl mx-auto relative flex items-end gap-2">
-            <div class="relative flex-1">
-                <input type="text" id="user-input" 
-                    class="w-full bg-gray-100 dark:bg-gray-800 border-0 rounded-2xl px-5 py-3.5 focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-gray-900 transition-all shadow-inner text-sm placeholder-gray-500 dark:text-white"
-                    placeholder="Skriv din fråga här..." autocomplete="off">
+    <footer class="bg-white/80 dark:bg-darkbg/80 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 pt-4 pb-8 px-4">
+        <div class="max-w-4xl mx-auto">
+            <form id="chat-form" class="relative flex items-end gap-3">
+                <div class="relative flex-1 group">
+                    <input type="text" id="user-input" 
+                        class="w-full bg-gray-100 dark:bg-gray-800 border-0 rounded-2xl px-6 py-4 pr-12 focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-gray-900 transition-all shadow-sm group-hover:shadow-md text-base placeholder-gray-500 dark:text-white"
+                        placeholder="Skriv din fråga här..." autocomplete="off">
+                </div>
+                
+                <button type="submit" 
+                    class="bg-primary hover:bg-blue-600 text-white h-[56px] w-[56px] rounded-2xl shadow-lg shadow-blue-500/20 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shrink-0"
+                    id="send-btn">
+                    <svg class="w-6 h-6 translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                </button>
+            </form>
+            <div class="text-center mt-3">
+                <p class="text-[10px] text-gray-400 dark:text-gray-600 uppercase tracking-widest font-medium">Federatören Sören AI</p>
             </div>
-            <button type="submit" 
-                class="bg-primary hover:bg-blue-600 text-white p-3.5 rounded-xl shadow-lg shadow-blue-500/20 transition-transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-                id="send-btn">
-                <svg class="w-5 h-5 translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-            </button>
-        </form>
+        </div>
     </footer>
 
     <script>
         const chatContainer = document.getElementById('chat-container');
+        const mainScrollArea = document.querySelector('main'); // Vi scrollar main-taggen nu
         const chatForm = document.getElementById('chat-form');
         const userInput = document.getElementById('user-input');
         const emptyState = document.getElementById('empty-state');
         const sendBtn = document.getElementById('send-btn');
-        
-        // --- THEME HANDLING ---
         const themeToggleBtn = document.getElementById('theme-toggle');
         const sunIcon = document.getElementById('sun-icon');
         const moonIcon = document.getElementById('moon-icon');
         const html = document.documentElement;
 
+        // --- THEME ---
         function applyTheme() {
             const isDark = localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
             if (isDark) {
@@ -105,8 +121,6 @@
                 moonIcon.classList.remove('hidden');
             }
         }
-        
-        // Init theme
         applyTheme();
 
         themeToggleBtn.addEventListener('click', () => {
@@ -118,7 +132,7 @@
             applyTheme();
         });
 
-        // --- CHAT LOGIC ---
+        // --- CHAT ---
 
         function appendMessage(text, sender) {
             if (emptyState) emptyState.style.display = 'none';
@@ -129,13 +143,12 @@
             const bubble = document.createElement('div');
             const isUser = sender === 'user';
             
-            bubble.className = `max-w-[85%] sm:max-w-[75%] rounded-2xl px-5 py-3 text-sm leading-relaxed shadow-sm ${
+            bubble.className = `max-w-[85%] sm:max-w-[75%] rounded-2xl px-6 py-3.5 text-base leading-relaxed shadow-sm ${
                 isUser 
                 ? 'bg-primary text-white rounded-br-none' 
                 : 'bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-none'
             }`;
             
-            // Hantera radbrytningar snyggt
             bubble.innerHTML = text.replace(/\n/g, '<br>');
 
             div.appendChild(bubble);
@@ -148,10 +161,10 @@
             div.id = 'typing-indicator';
             div.className = 'msg-enter flex w-full justify-start';
             div.innerHTML = `
-                <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl rounded-bl-none px-4 py-3 flex gap-1.5 items-center">
-                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span>
-                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></span>
-                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+                <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl rounded-bl-none px-5 py-4 flex gap-2 items-center shadow-sm">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></span>
+                    <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></span>
+                    <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
                 </div>
             `;
             chatContainer.appendChild(div);
@@ -164,7 +177,10 @@
         }
 
         function scrollToBottom() {
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            // Scrolla main-elementet istället för containern
+            setTimeout(() => {
+                mainScrollArea.scrollTop = mainScrollArea.scrollHeight;
+            }, 50);
         }
 
         chatForm.addEventListener('submit', async (e) => {
@@ -172,7 +188,6 @@
             const text = userInput.value.trim();
             if (!text) return;
 
-            // UI Updates
             appendMessage(text, 'user');
             userInput.value = '';
             userInput.disabled = true;
@@ -197,7 +212,7 @@
 
             } catch (err) {
                 removeTyping();
-                appendMessage("Kunde inte nå servern. Kontrollera din anslutning.", 'ai');
+                appendMessage("Kunde inte nå servern.", 'ai');
                 console.error(err);
             } finally {
                 userInput.disabled = false;
@@ -208,4 +223,3 @@
     </script>
 </body>
 </html>
-
