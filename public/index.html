@@ -150,7 +150,24 @@
                 : 'bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-none'
             }`;
             
-            bubble.innerHTML = text.replace(/\n/g, '<br>');
+            // --- HÄR ÄR FIXEN ---
+            // 1. Översätt Markdown-länkar [Text](URL) till HTML <a href>
+            // Vi ger dem en snygg stil (blå och understruken)
+            let formattedText = text.replace(
+                /\[([^\]]+)\]\(([^)]+)\)/g, 
+                (match, label, url) => {
+                    // Om det är användarens bubbla (blå bakgrund), gör länken vit
+                    // Om det är AI:ns bubbla (vit/mörk), gör länken blå
+                    const linkColor = isUser ? 'text-white underline decoration-2' : 'text-blue-600 dark:text-blue-400 underline decoration-2 hover:opacity-80';
+                    return `<a href="${url}" target="_blank" class="${linkColor} font-medium break-words">${label}</a>`;
+                }
+            );
+
+            // 2. Fixa radbrytningar (Samma som förut)
+            formattedText = formattedText.replace(/\n/g, '<br>');
+
+            bubble.innerHTML = formattedText;
+            // --------------------
 
             div.appendChild(bubble);
             chatContainer.appendChild(div);
@@ -229,6 +246,7 @@
     </script>
 </body>
 </html>
+
 
 
 
